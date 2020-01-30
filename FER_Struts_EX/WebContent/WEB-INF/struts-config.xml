@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+
+<struts-config>
+
+
+	<!-- ================================================ Bean Definitions -->
+	<form-beans>
+		 <form-bean name="LoginForm"
+			type="com.rs.struts.ex.form.LoginForm" /> 
+			 <form-bean name="RegistrationForm"
+			type="com.rs.struts.ex.form.RegistrationForm" />
+			 <form-bean name="ExpenseForm"
+			type="com.rs.struts.ex.form.AddExpenseForm" /> 
+			 <form-bean name="EditForm"
+			type="com.rs.struts.ex.form.EditForm" /> 
+			 <form-bean name="ResetForm"
+			type="com.rs.struts.ex.form.ResetForm" /> 
+			 <form-bean name="DeleteForm"
+			type="com.rs.struts.ex.form.DeleteForm" /> 
+			 <form-bean name="ReportForm"
+			type="com.rs.struts.ex.form.ReportForm" /> 
+			 <form-bean name="PersonalForm"
+			type="com.rs.struts.ex.form.PersonalForm" />
+			
+		<!--   <form-bean name="LoginForm" type="org.apache.struts.validator.DynaValidatorForm"> 
+			<form-property name="username" type="java.lang.String" initial="Enter username.."/> 
+			<form-property name="password" type="java.lang.String" initial="Enter password."/> 
+			</form-bean> -->
+
+	</form-beans>
+	<!-- ========================================= Global Exception Definitions -->
+
+	<global-exceptions>
+		<!-- sample exception handler <exception key="expired.password" type="app.ExpiredPasswordException" 
+			path="/changePassword.jsp"/> end sample -->
+	</global-exceptions>
+	<!-- =========================================== Global Forward Definitions -->
+	<global-forwards>
+		<!-- Default forward to "Welcome" action -->
+		<!-- Demonstrates using index.jsp to forward -->
+		<forward name="welcome" path="/Welcome.do" />
+	</global-forwards>
+	<!-- =========================================== Action Mapping Definitions -->
+	<action-mappings>
+
+		<action path="/login" name="LoginForm"
+			type="com.rs.struts.eg.action.LoginAction" input="/Login.jsp">
+			<forward name="success" path="dashboard" />
+			<forward name="failure" path="/Failure.jsp" />
+		</action>
+		
+		<action path="/register" name="RegistrationForm"
+			type="com.rs.struts.eg.action.RegistrationAction" input="/Registration.jsp">
+			<forward name="success" path="/Login.jsp" />
+			<forward name="failure" path="/Failure.jsp" />
+		</action>
+
+		<action path="/addE" input="add" name="ExpenseForm"
+			type="com.rs.struts.eg.action.AddExpenseAction" parameter="method">
+			<forward name="addExpense" path="add" />
+			<forward name="status" path="status" />
+		</action>
+		
+		<action path="/editE" input="edit" name="EditForm" scope="session"
+			type="com.rs.struts.eg.action.EditAction" parameter="method">
+			<forward name="editDropDown" path="editDropDown" />
+			<forward name="editExpense" path="edit" />
+			<forward name="status" path="status" />
+		</action>
+		
+		<action path="/deleteE" input="delete" name="DeleteForm" scope="session"
+			type="com.rs.struts.eg.action.DeleteAction" parameter="method">
+			<forward name="deleteExpense" path="deleteExpense" />
+			<forward name="deteteExpense" path="delete" />
+			<forward name="status" path="status" />
+		</action>
+		
+		<action path="/expense" input="report" name="ReportForm"
+			type="com.rs.struts.eg.action.ReportAction" parameter="method">
+			<forward name="expenseReport" path="report" />
+			<forward name="success" path="/ReportSuccess.jsp" />
+			<forward name="status" path="status" />
+		</action>
+		
+		<action path="/resetP" input="reset" parameter="method"
+			type="com.rs.struts.eg.action.ResetAction" name="ResetForm">
+			<forward name="resetPassword" path="reset" />
+			<forward name="status" path="status" />
+		</action>
+
+		<action path="/update" input="name" name="PersonalForm" 
+			type="com.rs.struts.eg.action.PersonalAction" parameter="method">
+			<forward name="updateName" path="name" />
+			<forward name="updateContact" path="contact" />
+			<forward name="updateAddress" path="address" />
+			<forward name="updateReview" path="review" />
+			<forward name="status" path="status" />
+		</action>
+
+
+	</action-mappings>
+	<!-- ======================================== Message Resources Definitions -->
+
+	<message-resources parameter="MessageResources" />
+
+
+
+	<!-- =============================================== Plug Ins Configuration -->
+
+	<!-- ======================================================= Tiles plugin -->
+
+	<!-- =================================================== Validator plugin -->
+
+	<plug-in
+		className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/WEB-INF/validator-rules.xml,
+               /WEB-INF/validation.xml" />
+	</plug-in>
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config"
+			value="/WEB-INF/tiles-defs.xml" />
+		<set-property property="moduleAware" value="true" />
+	</plug-in>
+
+</struts-config>
